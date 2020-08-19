@@ -15,8 +15,8 @@ class DateAdapter: CustomTypeAdapter<Date> {
     }
 
     override fun decode(value: CustomTypeValue<*>): Date {
-        try {
-            return DATE_FORMAT.parse(value.value.toString())
+        return try {
+            DATE_FORMAT.parse(value.value.toString())
         } catch (exception: ParseException) {
             throw RuntimeException(exception)
         }

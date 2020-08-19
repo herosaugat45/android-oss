@@ -54,7 +54,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onNext(response.errors?.first()?.message)
                             } else {
-                                val state = response.data()?.cancelBacking()?.backing()?.status()
+                                val state = response.data?.cancelBacking()?.backing()?.status()
                                 val success = state == BackingState.CANCELED
                                 ps.onNext(success)
                             }
@@ -90,7 +90,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 ps.onError(java.lang.Exception(response.errors?.first()?.message))
                             }
 
-                            val checkoutPayload = response.data()?.createBacking()?.checkout()
+                            val checkoutPayload = response.data?.createBacking()?.checkout()
                             val backing = Checkout.Backing.builder()
                                     .clientSecret(checkoutPayload?.backing()?.clientSecret())
                                     .requiresAction(checkoutPayload?.backing()?.requiresAction()?: false)
@@ -121,7 +121,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(java.lang.Exception(response.errors?.first()?.message))
                             }
-                            response.data()?.clearUserUnseenActivity()?.activityIndicatorCount().let {
+                            response.data?.clearUserUnseenActivity()?.activityIndicatorCount().let {
                                 handleResponse(it, ps)
                             }
                         }
@@ -171,7 +171,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             }
 
-                            response.data()?.project()?.creator()?.let {
+                            response.data?.project()?.creator()?.let {
                                 ps.onNext(CreatorDetails.builder()
                                         .backingsCount(it.backingsCount())
                                         .launchedProjectsCount(it.launchedProjects()?.totalCount() ?: 1)
@@ -199,7 +199,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             }
-                            ps.onNext(response.data())
+                            ps.onNext(response.data)
                             ps.onCompleted()
                         }
                     })
@@ -220,7 +220,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             } else {
-                                Observable.just(response.data())
+                                Observable.just(response.data)
                                         .map { cards -> cards?.me()?.backings()?.nodes() }
                                         .map { list ->
                                             val erroredBackings = list?.asSequence()?.map {
@@ -258,7 +258,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         }
 
                         override fun onResponse(response: Response<GetProjectBackingQuery.Data>) {
-                            response.data()?.let {data ->
+                            response.data?.let {data ->
                                 Observable.just(data.project()?.backing())
                                         .filter { it != null }
                                         .map { backingObj -> backingObj?.let { createBackingObject(it) } }
@@ -363,7 +363,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             }
-                            handleResponse(decodeRelayId(response.data()?.sendMessage()?.conversation()?.id()), ps)
+                            handleResponse(decodeRelayId(response.data?.sendMessage()?.conversation()?.id()), ps)
                         }
                     })
             return@defer ps
@@ -384,7 +384,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             }
-                            ps.onNext(response.data())
+                            ps.onNext(response.data)
                             ps.onCompleted()
                         }
                     })
@@ -446,7 +446,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             }
-                            ps.onNext(response.data())
+                            ps.onNext(response.data)
                             ps.onCompleted()
                         }
                     })
@@ -470,7 +470,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             }
-                            ps.onNext(response.data())
+                            ps.onNext(response.data)
                             ps.onCompleted()
                         }
                     })
@@ -495,7 +495,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                             if (response.hasErrors()) {
                                 ps.onError(Exception(response.errors?.first()?.message))
                             }
-                            ps.onNext(response.data())
+                            ps.onNext(response.data)
                             ps.onCompleted()
                         }
                     })
@@ -513,7 +513,7 @@ class KSApolloClient(val service: ApolloClient) : ApolloClientType {
                         }
 
                         override fun onResponse(response: Response<UserPrivacyQuery.Data>) {
-                            ps.onNext(response.data())
+                            ps.onNext(response.data)
                             ps.onCompleted()
                         }
                     })
