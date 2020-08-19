@@ -25,7 +25,7 @@ abstract class KSListAdapter(diffUtil: DiffUtil.ItemCallback<Any>) : ListAdapter
     }
 
     fun <T> addSection(section: List<T>) {
-        this.sections.add(ArrayList<Any>(section))
+        this.sections.add(listOf(section))
     }
 
     fun <T> addSections(sections: List<List<T>>) {
@@ -44,11 +44,11 @@ abstract class KSListAdapter(diffUtil: DiffUtil.ItemCallback<Any>) : ListAdapter
     }
 
     fun <T> setSection(location: Int, section: List<T>) {
-        this.sections[location] = ArrayList<Any>(section)
+        this.sections[location] = listOf(section)
     }
 
     fun <T> insertSection(location: Int, section: List<T>) {
-        this.sections.add(location, ArrayList<Any>(section))
+        this.sections.add(location, listOf(section))
     }
 
     /**
