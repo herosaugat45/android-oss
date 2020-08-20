@@ -7,20 +7,22 @@ import junit.framework.TestCase;
 import java.math.RoundingMode;
 import java.util.Locale;
 
+import static com.kickstarter.libs.utils.NumberUtils.flooredPercentage;
+
 public final class NumberUtilsTest extends TestCase {
   public void testFlooredPercentage() {
-    assertEquals("50%", NumberUtils.flooredPercentage(50.0f));
-    assertEquals("99%", NumberUtils.flooredPercentage(99.99f));
-    assertEquals("0%", NumberUtils.flooredPercentage(0.01f));
-    assertEquals("1,000%", NumberUtils.flooredPercentage(1000.0f));
+    assertEquals("50%", flooredPercentage(50.0f));
+    assertEquals("99%", flooredPercentage(99.99f));
+    assertEquals("0%", flooredPercentage(0.01f));
+    assertEquals("1,000%", flooredPercentage(1000.0f));
   }
 
   public void testFlooredPercentage_withFrenchLocale() {
-    assertEquals("50 %", NumberUtils.flooredPercentage(50.0f, Locale.FRENCH));
+    assertEquals("50 %", flooredPercentage(50.0f, Locale.FRENCH));
   }
 
   public void testFlooredPercentage_withGermanLocale() {
-    assertEquals("1.000%", NumberUtils.flooredPercentage(1000.0f, Locale.GERMAN));
+    assertEquals("1.000 %", flooredPercentage(1000.0f, Locale.GERMAN));
   }
 
   public void testFormatNumber_int() {
@@ -96,7 +98,7 @@ public final class NumberUtilsTest extends TestCase {
   }
 
   public void testFormatNumber_floatWithCurrencyAndGermanyLocale() {
-    assertEquals("100 $", NumberUtils.format(100.0f, NumberOptions.builder().currencySymbol("$").build(), Locale.GERMANY));
+    assertEquals("100 $", NumberUtils.format(100.0f, NumberOptions.builder().currencySymbol("$").build(), Locale.GERMANY));
     assertEquals("1.000", NumberUtils.format(1000.0f, NumberOptions.builder().build(), Locale.GERMANY));
     assertEquals("100,12", NumberUtils.format(100.12f, NumberOptions.builder().precision(2).build(), Locale.GERMANY));
   }
